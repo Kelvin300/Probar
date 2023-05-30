@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../database');
-const requestIp= require('request-ip')
+const requestIp= require('request-ip');
+const { request } = require('http');
+const { json } = require('body-parser');
+const geoip = require('geoip-lite')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -17,8 +20,14 @@ router.post('/', function(req, res, next) {
   const ip = clientIp
   let now = date.toLocaleString()
   // let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress; // @todo falta formatear la ip
+  let loc
+   // replace with the IP address you want to look up
+  const geo = geoip.lookup("186.92.82.190");
+  loc = (geo.country);
 
-  db.insert(name, email, comment, now, ip);
+  
+
+  db.insert(name, email, comment, now, ip, loc);
 
   res.redirect('/contactos');
 });
