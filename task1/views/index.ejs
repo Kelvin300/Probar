@@ -29,6 +29,11 @@
     </script>
 
     <script async src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+      function onSubmit(token) {
+        document.getElementById("demo-form").submit();
+      }
+    </script>
   </head>
 
   
@@ -510,7 +515,9 @@
                       </div>
                       <div class="row">
                         <div class="col">
-                          <button class="btn btn-primary" type="submit">Enviar</button>
+                          <button class="btn btn-primary g-recaptcha" data-sitekey="6Le08WEmAAAAAPkCdZ3Hab1YFUajgQficZ6350XT
+                          " 
+                          data-callback='onSubmit'  type="submit">Enviar</button>
                         </div>
                       </div>
                     </form>
@@ -524,7 +531,6 @@
                     <p class="pb-2">04242179709</p>
                     <p class="mb-0"><strong>Email</strong></p>
                     <p>kelvinpaez2004@gmail.com</p>
-                    <div class="g-recaptcha" data-sitekey="6Le08WEmAAAAAPkCdZ3Hab1YFUajgQficZ6350XT"></div>
                   </div>
                 </div>
               </div>
