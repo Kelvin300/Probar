@@ -5,6 +5,8 @@ const requestIp= require('request-ip');
 const { request } = require('http');
 const { json } = require('body-parser');
 const geoip = require('geoip-lite')
+const nodemailer = require('nodemailer')
+require('dotenv').config()
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,12 +27,45 @@ router.post('/', function(req, res, next) {
   const geo = geoip.lookup("186.92.82.190");
   loc = (geo.country);
 
-  
-
   db.insert(name, email, comment, now, ip, loc);
 
+  //Crear Transportador de correo
+  var transporter = nodemailer.createTransport ({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    // service: 'gmail',
+    auth: {
+      // type: 'PLAIN',
+      user: process.env.USER,
+      pass: process.env.PASS
+      // user: 'kendalltrece@gmail.com',
+      // pass: 'wolootvvtmvrwjri'
+    }
+  });
+
+  // Crear un objeto de opciones de correo
+  var mailOptions = {
+    nombre: name,
+    to: "kelvinpaez2004@gmail.com",
+    subject: 'Contacto desde el formulario',
+    text: comment
+  };
+
+  // Enviar el correo electrónico con el transportador
+  transporter.sendMail (mailOptions, function (error, info) {
+    // Manejar el error o la respuesta
+    if (error) {
+      console.log (error);
+      res.send ('Ocurrió un error al enviar el correo.');
+    } else {
+      console.log ('Correo enviado: ' + info.response);
+      res.send ('Correo enviado correctamente.');
+    }
+  });
   res.redirect('/contactos');
 });
+  
 
 router.get('/contactos', function(req, res, next) {
   db.select(function (rows) {

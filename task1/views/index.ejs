@@ -34,10 +34,23 @@
         document.getElementById("demo-form").submit();
       }
     </script>
+
+    <script>
+      var recaptcha_response = '';
+      function submitUserForm() {
+         if(recaptcha_response.length == 0) {
+             document.getElementById('g-recaptcha-error').innerHTML = '<span style="color:red;">Debes Completar el reCaptcha.</span>';
+             return false;
+          }
+            return true;
+      }
+ 
+      function verifyCaptcha(token) {
+          recaptcha_response = token;
+          document.getElementById('g-recaptcha-error').innerHTML = '';
+      }
+    </script>
   </head>
-
-  
-
 
 
   <body id="top">
@@ -483,7 +496,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="card-body">
-                    <form action='/' method="post">
+                    <form action='/' method="post" onsubmit="return submitUserForm();">
                       <div class="p pb-3"><strong>Contactame con el siguiente formulario:</strong></div>
                       <div class="row mb-3">
                         <div class="col">
@@ -515,7 +528,9 @@
                       </div>
                       <div class="row">
                         <div class="col">
-                          <div class="g-recaptcha" data-sitekey="6LeCDmImAAAAAMSb6gzVuKy6LnZc91PYeerkxKBG"></div>
+                          <!-- Google ReCaptcha -->
+                          <div class="g-recaptcha" data-sitekey="6LeCDmImAAAAAMSb6gzVuKy6LnZc91PYeerkxKBG" data-callback="verifyCaptcha"></div>
+                          <div id="g-recaptcha-error"></div>
                           <button class="btn btn-primary" type="submit">Enviar</button>
                         </div>
                       </div>
