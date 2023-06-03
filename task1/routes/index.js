@@ -76,8 +76,7 @@ router.get('/contactos', function(req, res, next) {
   db.select(function (rows) {
     console.log(rows);
   });
-  res.send('ok' + process.env);
-  console.log(dotenv.config().parsed)
+  res.send('Se ha guardado la informacion del formularion en la base de datos y se envio el correo electronico');
 });
 
 
