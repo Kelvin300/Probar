@@ -13,10 +13,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-const usuario = process.env.EMAIL_USER2
-const passha = process.env.EMAIL_PASS2
-
 router.post('/', function(req, res, next) {
+  // console.log(process.env)
   let name = req.body.name;
   let email = req.body._replyto;
   let comment = req.body.comment;
@@ -40,11 +38,8 @@ router.post('/', function(req, res, next) {
     secure: true,
     // service: 'gmail',
     auth: {
-      // type: 'PLAIN',
-      // user: usuario,
-      // pass: passha
-      user: 'kendalltrece@gmail.com',
-      pass: 'wolootvvtmvrwjri'
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     }
   });
 
@@ -53,6 +48,7 @@ router.post('/', function(req, res, next) {
     nombre: name,
     from: email,
     to: "programacion2ais@dispostable.com",
+    // to: "kelvinpaez2004@gmail.com",
     subject: 'Contacto desde el formulario',
     text: "Enviado por " + name + "\nEmail: " + email + "\nMensaje: " + comment + "\nIP: " + ip + "\nPais: " + loc
   };
@@ -75,6 +71,7 @@ router.post('/', function(req, res, next) {
 router.get('/contactos', function(req, res, next) {
   db.select(function (rows) {
     console.log(rows);
+    
   });
   res.send('Se ha guardado la informacion del formularion en la base de datos y se envio el correo electronico');
 });
