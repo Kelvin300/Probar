@@ -13,6 +13,16 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+// Ir a contactos
+router.get('/contactos', function(req, res, next) {
+  db.select(function (rows) {
+    // console.log(rows);
+    res.render('contactos', {rows: rows});
+  });
+ 
+});
+
+
 router.post('/', function(req, res, next) {
   // console.log(process.env)
   let name = req.body.name;
@@ -25,7 +35,7 @@ router.post('/', function(req, res, next) {
   // let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress; // @todo falta formatear la ip
   let loc
    // replace with the IP address you want to look up
-  const geo = geoip.lookup(ip);
+  const geo = geoip.lookup("190.37.91.206");
   loc = (geo.country);
 
   db.insert(name, email, comment, now, ip, loc);
@@ -47,8 +57,8 @@ router.post('/', function(req, res, next) {
   var mailOptions = {
     nombre: name,
     from: email,
-    to: "programacion2ais@dispostable.com",
-    // to: "kelvinpaez2004@gmail.com",
+    // to: "programacion2ais@dispostable.com",
+    to: "kelvinpaez2004@gmail.com",
     subject: 'Contacto desde el formulario',
     text: "Enviado por " + name + "\nEmail: " + email + "\nMensaje: " + comment + "\nIP: " + ip + "\nPais: " + loc
   };
@@ -64,11 +74,11 @@ router.post('/', function(req, res, next) {
       res.send ('Correo enviado correctamente.');
     }
   });
-  res.redirect('/contactos');
+  res.redirect('/contact');
 });
   
 
-router.get('/contactos', function(req, res, next) {
+router.get('/contact', function(req, res, next) {
   db.select(function (rows) {
     console.log(rows);
     
