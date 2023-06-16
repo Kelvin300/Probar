@@ -38,4 +38,26 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// //Passport
+// const passport = require('./store/passport');
+// const session = require('express-session');
+
+// // Aquí debes configurar las opciones para la sesión
+// const sessionOptions = {
+//   secret: 'un secreto muy secreto', // Aquí debes poner una cadena aleatoria que sirve para firmar las cookies de sesión
+//   resave: false, // Esto indica que no se debe guardar la sesión si no se modificó
+//   saveUninitialized: false // Esto indica que no se debe guardar la sesión si no se inicializó algún dato
+// };
+
+// // Aquí debes usar express-session como middleware con las opciones definidas
+// app.use(session(sessionOptions));
+
+// // Aquí debes inicializar passport como middleware
+// app.use(passport.initialize());
+
+// // Aquí debes habilitar passport para manejar las sesiones como middleware
+// app.use(passport.session());
+
+// // Aquí puedes definir tus rutas y controladores como lo harías normalmente
+
 module.exports = app;

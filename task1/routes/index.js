@@ -7,11 +7,33 @@ const { json } = require('body-parser');
 const geoip = require('geoip-lite')
 const nodemailer = require('nodemailer')
 require('dotenv').config();
+var app = require('../app');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+
+//Ir al login
+router.get('/login', function(req, res, next) {
+  // res.render('login');
+  res.render ('login', { error: false });
+
+});
+
+router.post('/login', function(req, res, next) {
+  let user = req.body.user
+  let pass = req.body.pass
+  if (user == process.env.ADMIN_USER && pass == process.env.ADMIN_PASS)  {
+    db.select(function (rows) {
+      // console.log(rows);
+      res.render('contactos', {rows: rows});
+    });
+  } else {
+    res.render('login', { error: 'Datos incorrectos' });
+  }
+})
+
 
 // Ir a contactos
 router.get('/contactos', function(req, res, next) {
@@ -21,7 +43,6 @@ router.get('/contactos', function(req, res, next) {
   });
  
 });
-
 
 router.post('/', function(req, res, next) {
   // console.log(process.env)
