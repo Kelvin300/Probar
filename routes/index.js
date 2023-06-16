@@ -102,7 +102,6 @@ router.post('/', function(req, res, next) {
 router.get('/contact', function(req, res, next) {
   db.select(function (rows) {
     console.log(rows);
-    
   });
   res.send('Se ha guardado la informacion del formularion en la base de datos y se envio el correo electronico');
 });

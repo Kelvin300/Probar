@@ -2,6 +2,14 @@ html,body {
 	height: 100%; 
 }
 
+.g-signin2 {
+	margin-top: 20px;
+	margin-left: 28%;
+	/* width: 100px; */
+	/* height: 100px; */
+	/* margin: auto; */
+	}
+
 .global-container{
 	height:100%;
 	display: flex;
