@@ -10,18 +10,9 @@
     <meta property="og:type" content="Login" />
     <meta property="og:url" content="https://www.imdb.com/title/tt0117500/" />
     <meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="410114851897-63psg9avuqqusagaddkhvb1hc90nl1av.apps.googleusercontent.com">
-    <!-- Script de google -->
-    <script>
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-            console.log('Image URL: ' + profile.getImageUrl());
-        }
-    </script>
+    <meta property="og:description" content="Pagina de logueo para comprobar datos de formularios">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
 </head>
 <body>
     <div class="global-container">
@@ -49,9 +40,25 @@
                       <% } %>
 
                     <button type="submit" class="btn btn-primary btn-block">Iniciar sesion</button>
-                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-
-                    <!-- <div class="sign-up">
+                    <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+                    <div id="g_id_onload"
+                    data-client_id="410114851897-63psg9avuqqusagaddkhvb1hc90nl1av.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="popup"
+                    data-callback="onSignIn"
+                    data-login_uri="/logueo"
+                    data-auto_prompt="false">
+               </div>
+               
+               <div class="g_id_signin"
+                   
+                    data-type="standard"
+                    data-shape="rectangular"
+                    data-theme="outline"
+                    data-text="signin_with"
+                    data-size="large"
+                    data-logo_alignment="left">
+               </div>                    <!-- <div class="sign-up">
                         Don't have an account? <a href="#">Create One</a> -->
                     </div>
                 </form>

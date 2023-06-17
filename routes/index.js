@@ -9,6 +9,23 @@ const nodemailer = require('nodemailer')
 require('dotenv').config();
 var app = require('../app');
 
+const {OAuth2Client} = require('google-auth-library')
+const client = new OAuth2Client('410114851897-63psg9avuqqusagaddkhvb1hc90nl1av.apps.googleusercontent.com');
+
+async function getEmail(datos) {
+  // Verificar el token JWT y obtener la información del usuario
+  const ticket = await client.verifyIdToken({
+    idToken: datos.credential,
+    audience: '410114851897-63psg9avuqqusagaddkhvb1hc90nl1av.apps.googleusercontent.com'
+  });
+  // Obtener un objeto con la información del usuario
+  const user = ticket.getPayload();
+  // Obtener el email del usuario
+  const email = user.email;
+  // Devolver el email
+  return email;
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -43,6 +60,21 @@ router.get('/contactos', function(req, res, next) {
   });
  
 });
+router.post('/logueo', function(req, res, next){
+  const datos = req.body;
+  // Llamar a la función getEmail() para obtener el email del usuario
+  getEmail(datos).then(email => {
+    if (email == process.env.EMAIL_GOOGLE) {
+      db.select(function (rows) {
+        // console.log(rows);
+        res.render('contactos', {rows: rows});
+      });
+    } else {
+      res.status(500).send("Error al verificar el token, No eres un usuario autorizado");
+    }
+    
+  })
+})
 
 router.post('/', function(req, res, next) {
   // console.log(process.env)
@@ -56,7 +88,9 @@ router.post('/', function(req, res, next) {
   // let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress; // @todo falta formatear la ip
   let loc
    // replace with the IP address you want to look up
-  const geo = geoip.lookup("190.37.91.206");
+  // const geo = geoip.lookup("190.37.91.206");
+    const geo = geoip.lookup(ip);
+
   loc = (geo.country);
 
   db.insert(name, email, comment, now, ip, loc);
@@ -78,8 +112,8 @@ router.post('/', function(req, res, next) {
   var mailOptions = {
     nombre: name,
     from: email,
-    // to: "programacion2ais@dispostable.com",
-    to: "kelvinpaez2004@gmail.com",
+    to: process.env.EMAIL_SEND,
+    // to: "kelvinpaez2004@gmail.com",
     subject: 'Contacto desde el formulario',
     text: "Enviado por " + name + "\nEmail: " + email + "\nMensaje: " + comment + "\nIP: " + ip + "\nPais: " + loc
   };
